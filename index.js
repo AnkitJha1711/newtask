@@ -12,9 +12,7 @@ const apiCallLimiter = rateLimit({
   windowMs: 60 * 1000, 
   max: 15, 
   
-  handler: (_, res) => { 
-    res.status(429).send('Too many requests, please try again later.');
-}
+ 
 });
 const redisClient = redis.createClient();
 
@@ -33,6 +31,9 @@ const rateLimiter = (req, res, next) => {
       const requestCount = replies[2];
 
       if (requestCount > 15) {
+         handler: (_, res) => { 
+    res.status(429).send('Too many requests, please try again later.');
+}
         return res.status(429).send('Too many requests, please try again later.');
       }
 
